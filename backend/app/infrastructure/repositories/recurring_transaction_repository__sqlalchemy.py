@@ -71,7 +71,7 @@ class SQLAlchemyRecurringTransactionRepository:
                 next_due_date=calculated_due_date
             )
 
-            await self.db.add(recurring_transaction)
+            self.db.add(recurring_transaction)
             await self.db.flush()  
             
             if create_immediate_transaction:
@@ -82,7 +82,7 @@ class SQLAlchemyRecurringTransactionRepository:
                     user_id=user_id,
                     category_id=category_id,
                 )
-                await self.db.add(immediate_transaction)
+                self.db.add(immediate_transaction)
                 await self.db.flush()  
 
                 category_type = await self.transaction_repo.get_category_type(category_id)
@@ -91,7 +91,7 @@ class SQLAlchemyRecurringTransactionRepository:
                 transaction_history = RecurringTransactionHistory(
                     recurring_transaction_id=recurring_transaction.id
                 )
-                await self.db.add(transaction_history) 
+                self.db.add(transaction_history) 
 
             await self.db.commit()
             return recurring_transaction
@@ -135,7 +135,7 @@ class SQLAlchemyRecurringTransactionRepository:
                     )
 
                     recurring_history_transaction = RecurringTransactionHistory(recurring_transaction_id=transaction.id)
-                    await self.db.add(recurring_history_transaction)
+                    self.db.add(recurring_history_transaction)
 
                     next_due = self._calculate_next_due_date_from_date(transaction.next_due_date, transaction.frequency)
                     recurring_transaction = await self.db.get(RecurringTransaction, transaction.id)

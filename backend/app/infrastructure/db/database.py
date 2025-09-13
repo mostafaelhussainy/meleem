@@ -9,7 +9,7 @@ Base = declarative_base()
 # Create async engine
 engine = create_async_engine(
     f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}",
-    echo=True,
+    echo=False,
 )
 
 # Create async session factory

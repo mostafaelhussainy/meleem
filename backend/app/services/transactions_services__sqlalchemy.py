@@ -30,12 +30,14 @@ class SQLAlchemyTransactionServices:
         transaction_created_at: DateFilterEnum | None
     ):
         created_at = None
-        if (transaction_created_at):
+        if transaction_created_at:
             created_at = self.utils.get_date_range(transaction_created_at)
-
-        transactions = await self.repo.get_all_user_transactions(user_id, category_type, created_at)
+            
+        # Pass the string value of category_type to the repository
+        category_type_value = category_type.value if category_type else None
+        transactions = await self.repo.get_all_user_transactions(user_id, category_type_value, created_at)
         return transactions
-    
+     
     async def add_user_transaction(
         self, 
         transaction_name: str, 
