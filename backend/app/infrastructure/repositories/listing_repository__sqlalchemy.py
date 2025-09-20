@@ -11,9 +11,17 @@ class SQLAlchemyListingRepository:
     async def get_currencies_list(self):
         result = await self.db.execute(select(Currency))
         currencies = result.scalars().all()
-        return [currency.__dict__ for currency in currencies]
+        return [{
+            'code': currency.iso_code,
+            'name': currency.name,
+            'symbol': currency.symbol
+        } for currency in currencies]
     
     async def get_categories_list(self):
         result = await self.db.execute(select(Category))
         categories = result.scalars().all()
-        return [category.__dict__ for category in categories]
+        return [{
+            'id': str(category.id),
+            'name': category.name,
+            'type': category.type.value  
+        } for category in categories]

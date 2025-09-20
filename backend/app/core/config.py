@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int 
 
+    # Redis settings
+    REDIS_HOST: str = Field(default="localhost")
+    REDIS_PORT: int = Field(default=6379)
+
     # Extra settings
     CORS_ORIGINS: List[str] = Field(default=["*"])
     PASSWORD_HASH_ROUNDS: int = Field(default=12)
